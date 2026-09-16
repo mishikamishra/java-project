@@ -1,0 +1,109 @@
+# Project Report: Library Management System
+
+## 1. Introduction
+
+The Library Management System is a console-based Java application designed to simulate the core operations of managing a small library's book records. It allows a user to add, view, search, issue, return, and delete books through a simple text-based menu. The project was built to demonstrate the practical use of fundamental Java concepts such as loops, conditionals, methods, and collections (ArrayLists), without relying on any external libraries, files, or databases.
+
+## 2. Objective
+
+The main objectives of this project are:
+
+- To build a functional book management system using core Java.
+- To practice using `ArrayList` for dynamic, in-memory data storage.
+- To implement basic CRUD-like operations (Create, Read, Update, Delete) on book records.
+- To design a simple, menu-driven console interface for user interaction.
+
+## 3. Scope of the Project
+
+This project is intended as a learning exercise and a foundational prototype. It covers single-session book management and does not include:
+
+- Persistent storage (data resets every time the program restarts).
+- User authentication or multi-user roles (admin/student/librarian).
+- A graphical or web-based interface.
+- Integration with a real database.
+
+These are noted as potential future enhancements.
+
+## 4. Tools and Technologies Used
+
+| Tool/Technology | Purpose |
+|---|---|
+| Java (JDK 8+) | Core programming language |
+| `java.util.Scanner` | Reading user input from the console |
+| `java.util.ArrayList` | Storing book records dynamically |
+| Command-line / terminal | Compiling and running the program |
+
+## 5. System Design
+
+### 5.1 Data Storage
+
+Instead of using a single class/object per book, the system uses four parallel `ArrayList`s, where the same index across all four lists represents one book record:
+
+- `ids` – stores the Book ID (`Integer`)
+- `titles` – stores the Book Title (`String`)
+- `Authors` – stores the Author Name (`String`)
+- `issued` – stores the issue status (`Boolean`)
+
+### 5.2 Modules / Functions
+
+| Function | Description |
+|---|---|
+| `main()` | Displays the menu in a loop and routes user choice to the correct function |
+| `addBook()` | Takes book details as input and adds them to the lists |
+| `viewBooks()` | Iterates through all lists and prints book details and status |
+| `searchBook()` | Searches for books whose title contains the search string |
+| `issueBook()` | Finds a book by ID and marks it as issued, if available |
+| `returnBook()` | Finds a book by ID and marks it as returned |
+| `deleteBook()` | Finds a book by ID and removes its entry from all four lists |
+
+### 5.3 Program Flow
+
+1. The program starts and displays a menu in an infinite loop.
+2. The user enters a choice (1–7).
+3. Based on the choice, the corresponding function is called.
+4. The function performs the operation and prints a result/status message.
+5. Control returns to the menu until the user selects option 7 to exit.
+
+## 6. Implementation Details
+
+- User input is read using `Scanner`, with `sc.nextInt()` used for numeric input (IDs, menu choice) and `sc.nextLine()` used for text input (titles, author names).
+- After every `sc.nextInt()`, an extra `sc.nextLine()` call is used to clear the leftover newline character from the input buffer, preventing input-skipping bugs.
+- Searching is implemented using `String.contains()`, making it a substring match rather than an exact match.
+- Issue/Return/Delete operations all work by looping through the `ids` list to find a matching index, then acting on that index across the other lists.
+
+## 7. Sample Output
+
+```
+1. Add Book
+2. View Books
+3. Search
+4. Issue
+5. Return
+6. Delete
+7. Exit
+Enter your choice: 1
+Enter id: 101
+Enter title: The Alchemist
+Enter author name: Paulo Coelho
+Book Added
+```
+
+## 8. Known Limitations
+
+- Data is not saved between program runs (no file or database persistence).
+- Search functionality is case-sensitive.
+- No validation is performed to prevent duplicate Book IDs.
+- No confirmation prompt before deleting a book.
+- Minimal error handling for invalid/non-numeric input.
+
+## 9. Future Enhancements
+
+- Add file-based or database persistence (e.g., using file I/O or JDBC with MySQL/SQLite).
+- Make search case-insensitive and support search by author or ID as well.
+- Add input validation and duplicate ID checks.
+- Introduce a proper `Book` class instead of parallel ArrayLists, for cleaner and more scalable code.
+- Build a GUI (JavaFX/Swing) or web-based front end.
+
+## 10. Conclusion
+
+This project successfully demonstrates a working library management system using core Java concepts. While simple in scope, it lays the groundwork for understanding how basic CRUD operations, collections, and control flow come together to build a functional application. It also highlights several areas that can be improved to make it more robust, scalable, and production-ready.
