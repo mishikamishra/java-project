@@ -1,0 +1,131 @@
+import java.util.*;
+
+public class Main {
+    static Scanner sc = new Scanner(System.in);
+    static ArrayList<Integer> ids = new ArrayList<Integer>();
+    static ArrayList<String> titles = new ArrayList<String>();
+    static ArrayList<String> Authors = new ArrayList<String>();
+    static ArrayList<Boolean> issued = new ArrayList<Boolean>();
+
+    public static void main(String[] args) {
+        int choice = 0;
+        while(choice != 7) {
+            System.out.println("\n1. Add Book\n2. View Books\n3. Search\n4. Issue\n5. Return\n6. Delete\n7. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            if(choice == 1) {
+                addBook();
+            } else if(choice == 2) {
+                viewBooks();
+            } else if(choice == 3) {
+                searchBook();
+            } else if(choice == 4) {
+                issueBook();
+            } else if(choice == 5) {
+                returnBook();
+            } else if(choice == 6) {
+                deleteBook();
+            } else if(choice == 7) {
+                System.out.println("Thank you");
+            } else {
+                System.out.println("wrong choice");
+            }
+        }
+    }
+
+    static void addBook() {
+        System.out.print("Enter id: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Enter title: ");
+        String t = sc.nextLine();
+        System.out.print("Enter author name: ");
+        String a = sc.nextLine();
+
+        ids.add(id);
+        titles.add(t);
+        Authors.add(a);
+        issued.add(false);
+        System.out.println("Book Added");
+    }
+
+    static void viewBooks() {
+        if(ids.size() == 0) {
+            System.out.println("no books yet");
+        }
+        for(int i = 0; i < ids.size(); i++) {
+            System.out.print(ids.get(i) + " ");
+            System.out.print(titles.get(i) + " ");
+            System.out.print(Authors.get(i) + " ");
+            if(issued.get(i) == true) {
+                System.out.println("issued");
+            } else {
+                System.out.println("available");
+            }
+        }
+    }
+
+    static void searchBook() {
+        System.out.print("enter title: ");
+        String s = sc.nextLine();
+        int count = 0;
+        for(int i = 0; i < titles.size(); i++) {
+            // not doing lowercase check properly, case sensitive search
+            if(titles.get(i).contains(s)) {
+                System.out.println(ids.get(i) + " " + titles.get(i) + " " + Authors.get(i));
+                count = count + 1;
+            }
+        }
+        if(count == 0)
+            System.out.println("book not found");
+    }
+
+    static void issueBook() {
+        System.out.print("enter id: ");
+        int id = sc.nextInt();
+        int flag = 0;
+        for(int i = 0; i < ids.size(); i++) {
+            if(ids.get(i) == id) {
+                flag = 1;
+                if(issued.get(i) == false) {
+                    issued.set(i, true);
+                    System.out.println("book issued");
+                } else {
+                    System.out.println("already issued");
+                }
+            }
+        }
+        if(flag == 0)
+            System.out.println("not found");
+    }
+
+    static void returnBook() {
+        System.out.print("enter id: ");
+        int id = sc.nextInt();
+        for(int i = 0; i < ids.size(); i++) {
+            if(ids.get(i) == id) {
+                issued.set(i, false);
+                System.out.println("book returned");
+                return;
+            }
+        }
+        System.out.println("not found");
+    }
+
+    static void deleteBook() {
+        System.out.print("enter id to delete: ");
+        int id = sc.nextInt();
+        for(int i = 0; i < ids.size(); i++) {
+            if(ids.get(i) == id) {
+                ids.remove(i);
+                titles.remove(i);
+                Authors.remove(i);
+                issued.remove(i);
+                break;
+            }
+        }
+        System.out.println("deleted (if it existed)");
+    }
+}
